@@ -6,6 +6,7 @@ import './App.css'
 import stores from './stores'
 
 import Journal from './pages/Journal'
+import Paper from './pages/Paper'
 
 const { Header, Content } = Layout
 
@@ -28,11 +29,13 @@ class App extends Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key='/journal'>期刊列表</Menu.Item>
+            <Menu.Item key='/paper'>论文列表</Menu.Item>
           </Menu>
         </Header>
         <Content style={{ padding: '50px', minWidth: 980, margin: '0 auto' }}>
           <div style={{ padding: '50px', background: 'white' }}>
             <Route path='/journal' component={Journal} />
+            <Route path='/paper' component={Paper} />
           </div>
         </Content>
       </Layout>

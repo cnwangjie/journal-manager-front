@@ -6,13 +6,10 @@ import store from '../../stores'
 const { Title } = Typography
 
 const columnsMap = {
-  name: '名称',
-  sponsor: '主办单位',
-  cn: 'CN',
-  location: '出版地',
-  issn: 'ISSN',
-  code: '邮发代号',
-  period: '出版周期'
+  title: '标题',
+  author: '作者',
+  page: '页码',
+  keywords: '关键词'
 }
 
 const columns = Object.entries(columnsMap).map(([key, title]) => ({ title, key, dataIndex: key }))
@@ -20,14 +17,14 @@ const columns = Object.entries(columnsMap).map(([key, title]) => ({ title, key, 
 @observer
 class Journal extends Component {
   componentDidMount () {
-    store.data.getAllJournals()
+    store.data.getAllPapers()
   }
 
   render () {
     return (
       <div>
-        <Title>期刊列表</Title>
-        <Table rowKey='_id' dataSource={store.data.journals} columns={columns} />
+        <Title>论文列表</Title>
+        <Table rowKey='_id' dataSource={store.data.papers} columns={columns} />
       </div>
     )
   }
