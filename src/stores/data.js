@@ -1,6 +1,11 @@
 import _ from 'lodash'
-import { observable, action, runInAction } from 'mobx'
-import { getAllJournals, getAllKeywords, getAllPapers } from '../service'
+import { observable, action, runInAction, computed } from 'mobx'
+import {
+  getAllJournals,
+  getAllKeywords,
+  getAllPapers,
+  getAllSubscriptions
+} from '../service'
 
 class DataStore {
   @observable
@@ -11,6 +16,36 @@ class DataStore {
 
   @observable
   keywords = []
+
+  @observable
+  subscriptions = []
+
+  @computed get keywordsMap () {
+    return _.mapValues(_.keyBy(this.keywords, '_id'), 'name')
+  }
+
+  @computed get journalsMap () {
+    return _.keyBy(this.journals, '_id')
+  }
+
+  @computed get mappedPapers () {
+    return this.papers.map(({ _id, title, author, page, keywords }) => ({
+      _id,
+      title,
+      author,
+      page,
+      keywords: keywords.map(id => this.keywordsMap[id]).join(', ')
+    }))
+  }
+
+  @computed get mappedSubscriptions () {
+    return this.subscriptions.map(({ _id, journal_id: id, year }) => ({
+      _id,
+      name: this.journalsMap[id].name,
+      code: this.journalsMap[id].code,
+      year
+    }))
+  }
 
   @action
   async getAllJournals () {
@@ -24,12 +59,6 @@ class DataStore {
   async getAllPapers () {
     const { data: papers } = await getAllPapers()
     await this.getAllKeywords()
-    const keywordsMap = _.mapValues(_.keyBy(this.keywords, '_id'), 'name')
-
-    papers.forEach((paper) => {
-      paper.keywords = paper.keywords.map(id => keywordsMap[id]).join(', ')
-    })
-
     runInAction(() => {
       this.papers = papers
     })
@@ -40,6 +69,15 @@ class DataStore {
     const { data: keywords } = await getAllKeywords()
     runInAction(() => {
       this.keywords = keywords
+    })
+  }
+
+  @action
+  async getAllSubscriptions () {
+    const { data: subscriptions } = await getAllSubscriptions()
+    await this.getAllJournals()
+    runInAction(() => {
+      this.subscriptions = subscriptions
     })
   }
 }

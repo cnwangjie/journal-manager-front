@@ -7,6 +7,7 @@ import stores from './stores'
 
 import Journal from './pages/Journal'
 import Paper from './pages/Paper'
+import Subscription from './pages/Subscription'
 
 const { Header, Content } = Layout
 
@@ -30,12 +31,14 @@ class App extends Component {
           >
             <Menu.Item key='/journal'>期刊列表</Menu.Item>
             <Menu.Item key='/paper'>论文列表</Menu.Item>
+            <Menu.Item key='/subscription'>订阅列表</Menu.Item>
           </Menu>
         </Header>
         <Content style={{ padding: '50px', minWidth: 980, margin: '0 auto' }}>
           <div style={{ padding: '50px', background: 'white' }}>
             <Route path='/journal' component={Journal} />
             <Route path='/paper' component={Paper} />
+            <Route path='/subscription' component={Subscription} />
           </div>
         </Content>
       </Layout>

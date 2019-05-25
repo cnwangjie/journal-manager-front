@@ -15,7 +15,7 @@ const columnsMap = {
 const columns = Object.entries(columnsMap).map(([key, title]) => ({ title, key, dataIndex: key }))
 
 @observer
-class Journal extends Component {
+class Paper extends Component {
   componentDidMount () {
     store.data.getAllPapers()
   }
@@ -24,10 +24,10 @@ class Journal extends Component {
     return (
       <div>
         <Title>论文列表</Title>
-        <Table rowKey='_id' dataSource={store.data.papers} columns={columns} />
+        <Table rowKey='_id' dataSource={store.data.mappedPapers} columns={columns} />
       </div>
     )
   }
 }
 
-export default Journal
+export default Paper
