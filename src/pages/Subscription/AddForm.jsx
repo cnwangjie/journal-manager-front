@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { Form, Select, Input, Divider, Icon } from 'antd'
+import { Form, Select, InputNumber, Divider, Icon } from 'antd'
 
 import store from '../../stores'
 
@@ -14,7 +14,7 @@ class AddForm extends Component {
 
   render () {
     const journals = store.data.journals.map(journal => (
-      <Option value={journal._id}>{journal.name} {journal.code}</Option>
+      <Option key={journal._id} value={journal._id}>{journal.name} {journal.code}</Option>
     ))
 
     const JournalSelector = (
@@ -36,7 +36,7 @@ class AddForm extends Component {
     const { getFieldDecorator } = this.props.form
 
     return (
-      <Form>
+      <Form labelCol={{ span: 6 }} wrapperCol={{ span: 14 }}>
         <Form.Item label='期刊'>
           {getFieldDecorator('journal_id', {
             rules: [
@@ -59,7 +59,7 @@ class AddForm extends Component {
                 message: '请输入要订阅的年份'
               }
             ]
-          })(<Input />)}
+          })(<InputNumber />)}
         </Form.Item>
       </Form>
     )

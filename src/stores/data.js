@@ -4,12 +4,18 @@ import {
   getAllJournals,
   getAllKeywords,
   getAllPapers,
-  getAllSubscriptions
+  getAllSubscriptions,
+  addSubscription,
+  stockSubscription,
+  deleteSubscription
 } from '../service'
 
 class DataStore {
   @observable
   journals = []
+
+  @observable
+  inventories = []
 
   @observable
   papers = []
@@ -78,6 +84,30 @@ class DataStore {
     await this.getAllJournals()
     runInAction(() => {
       this.subscriptions = subscriptions
+    })
+  }
+
+  @action
+  async addSubscription (data) {
+    const { data: subscription } = await addSubscription(data)
+    runInAction(() => {
+      this.subscriptions.push(subscription)
+    })
+  }
+
+  @action
+  async stockSubscription (_id, data) {
+    const { data: inventory } = await stockSubscription(_id, data)
+    runInAction(() => {
+      this.inventories.push(inventory)
+    })
+  }
+
+  @action
+  async deleteSubscription (_id) {
+    await deleteSubscription(_id)
+    runInAction(() => {
+      this.subscriptions = this.subscriptions.filter((subscription) => subscription._id !== _id)
     })
   }
 }

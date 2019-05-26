@@ -50,7 +50,7 @@ class Subscription extends Component {
   }
 
   deleteSubscription = (subscription) => {
-
+    store.data.deleteSubscription(subscription._id)
   }
 
   componentDidMount () {

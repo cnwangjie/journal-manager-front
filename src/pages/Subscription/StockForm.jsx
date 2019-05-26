@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { Form, Input } from 'antd'
+import { Form, InputNumber } from 'antd'
 
 @observer
 class AddForm extends Component {
@@ -8,7 +8,7 @@ class AddForm extends Component {
     const { getFieldDecorator } = this.props.form
 
     return (
-      <Form>
+      <Form labelCol={{ span: 6 }} wrapperCol={{ span: 14 }}>
         <Form.Item label='期刊'>
           <span className='ant-form-text'>{this.props.subscription.name}</span>
         </Form.Item>
@@ -25,7 +25,7 @@ class AddForm extends Component {
                 message: '请输入年份'
               }
             ]
-          })(<Input />)}
+          })(<InputNumber />)}
         </Form.Item>
         <Form.Item label='卷'>
           {getFieldDecorator('phase', {
@@ -39,7 +39,7 @@ class AddForm extends Component {
                 message: '请输入卷号'
               }
             ]
-          })(<Input />)}
+          })(<InputNumber />)}
         </Form.Item>
         <Form.Item label='期'>
           {getFieldDecorator('season', {
@@ -53,7 +53,7 @@ class AddForm extends Component {
                 message: '请输入期号'
               }
             ]
-          })(<Input />)}
+          })(<InputNumber />)}
         </Form.Item>
       </Form>
     )
