@@ -1,0 +1,18 @@
+.blur-block {
+  padding: 50px;
+}
+
+.blur-block .blur-content {
+  position: relative;
+}
+
+.blur-block .blur-cover {
+  display: block;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  filter: blur(15px) brightness(110%);
+  background: #ffffff80;
+}

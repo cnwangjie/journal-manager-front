@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
-import { message, PageHeader, Row, Col, Statistic } from 'antd'
+import { PageHeader, Row, Col, Statistic } from 'antd'
 import store from '../../stores'
 
 import InventoryList from '../../components/InventoryList'
@@ -9,11 +9,6 @@ import InventoryList from '../../components/InventoryList'
 @observer
 class Inventory extends Component {
   state = { loading: true }
-
-  deleteInventory = async (inventory) => {
-    await store.data.deleteInventory(inventory._id)
-    message.success('删除成功')
-  }
 
   async componentDidMount () {
     await store.data.getAllInventories()
@@ -30,10 +25,10 @@ class Inventory extends Component {
           title='库存列表'
         >
           <Row>
-            <Col span={12}>
+            <Col span={6}>
               <Statistic title='期刊种类' value={journalSum} />
             </Col>
-            <Col span={12}>
+            <Col span={6}>
               <Statistic title='期刊总数' value={allSum} />
             </Col>
           </Row>

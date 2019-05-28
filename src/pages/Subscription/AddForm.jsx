@@ -23,7 +23,10 @@ class AddForm extends Component {
           <div>
             {menu}
             <Divider style={{ margin: '4px 0' }} />
-            <div style={{ padding: '8px', cursor: 'pointer' }}>
+            <div
+              style={{ padding: '8px', cursor: 'pointer' }}
+              onClick={() => store.route.push('/journal/edit')}
+            >
               <Icon type='plus' /> 新增期刊
             </div>
           </div>

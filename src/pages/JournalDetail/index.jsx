@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { PageHeader, Row, Col, Statistic } from 'antd'
-import stores from '../../stores'
+import { Link } from 'react-router-dom'
+import { PageHeader, Row, Col, Statistic, Button } from 'antd'
 import { getJournal, getInventoriesByJournalId, getSubscriptionsByJournalId } from '../../service'
 
 import InventoryList from '../../components/InventoryList'
@@ -10,6 +10,12 @@ class JournalDetail extends Component {
     loading: true,
     _id: '',
     name: '',
+    sponsor: '',
+    cn: '',
+    location: '',
+    issn: '',
+    code: '',
+    period: '',
     inventories: [],
     subscriptions: []
   }
@@ -36,13 +42,32 @@ class JournalDetail extends Component {
       <div>
         <PageHeader
           title={this.state.name}
+          extra={[
+            <Link key='edit' to={{ pathname: '/journal/edit', state: this.state }}>
+              <Button type='primary'>修改</Button>
+            </Link>
+          ]}
         >
           <Row>
-            <Col span={12}>
-              <Statistic title='订阅的年份' value={subscribYears} />
+            <Col span={8}>
+              <Row>
+                <Col span={12}>CN 刊号： {this.state.cn}</Col>
+                <Col span={12}>ISSN： {this.state.issn}</Col>
+                <Col span={12}>邮发代号： {this.state.code}</Col>
+                <Col span={12}>出版周期： {this.state.period}</Col>
+                <Col span={12}>出版地： {this.state.location}</Col>
+                <Col span={12}>主办单位： {this.state.sponsor}</Col>
+              </Row>
             </Col>
-            <Col span={12}>
-              <Statistic title='库存总数' value={inventoriesSum} />
+            <Col span={8} offset={8}>
+              <Row>
+                <Col span={12}>
+                  <Statistic title='订阅的年份' value={subscribYears} />
+                </Col>
+                <Col span={12}>
+                  <Statistic title='库存总数' value={inventoriesSum} />
+                </Col>
+              </Row>
             </Col>
           </Row>
         </PageHeader>

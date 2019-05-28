@@ -13,11 +13,17 @@ const columnsMap = {
   year: '年份'
 }
 
-const columns = Object.entries(columnsMap).map(([key, title]) => ({ title, key, dataIndex: key }))
+const columns = Object.entries(columnsMap).map(([key, title]) => ({
+  title,
+  key,
+  dataIndex: key,
+  sorter: (a, b) => key === 'year' ? a.year - b.year : a[key] > b[key] ? 1 : -1
+}))
 
 @observer
 class Subscription extends Component {
   state = {
+    loading: true,
     addModalVisible: false,
     stockModalVisible: false,
     stockItem: null
@@ -53,8 +59,9 @@ class Subscription extends Component {
     message.success('删除成功')
   }
 
-  componentDidMount () {
-    store.data.getAllSubscriptions()
+  async componentDidMount () {
+    await store.data.getAllSubscriptions()
+    this.setState({ loading: false })
   }
 
   render () {
@@ -88,19 +95,19 @@ class Subscription extends Component {
           ]}
         >
           <Row>
-            <Col span={12}>
+            <Col span={6}>
               <Statistic title='订阅的期刊种类' value={journalSum} />
             </Col>
-            <Col span={12}>
+            <Col span={6}>
               <Statistic title='订阅的期刊总数' value={allSum} />
             </Col>
-            <Col span={12}>
+            <Col span={6}>
               <Statistic title='今年订阅的期刊' value={thisYearSum} />
             </Col>
           </Row>
         </PageHeader>
 
-        <Table rowKey='_id' dataSource={store.data.mappedSubscriptions} columns={columnsWithAction} />
+        <Table rowKey='_id' loading={this.state.loading} dataSource={store.data.mappedSubscriptions} columns={columnsWithAction} />
 
         <AddModal
           visible={this.state.addModalVisible}

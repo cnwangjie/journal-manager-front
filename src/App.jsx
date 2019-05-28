@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import { Layout, Menu } from 'antd'
-import { Route, Redirect } from 'react-router-dom'
-import './App.css'
+import { Route, Switch, Link } from 'react-router-dom'
 import stores from './stores'
 
-import Journal from './pages/Journal'
-import JournalDetail from './pages/JournalDetail'
-import Inventory from './pages/Inventory'
-import Paper from './pages/Paper'
-import Subscription from './pages/Subscription'
+import './App.css'
+import bg from './assets/bg.jpg'
+
+import Home from './pages/Home'
+import Container from './pages/Container'
 
 const { Header, Content } = Layout
 
@@ -23,7 +22,7 @@ class App extends Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Header>
-          <div className='site-name'>Journal Manager</div>
+          <Link to='/'><div className='site-name'>Journal Manager</div></Link>
           <Menu
             theme='dark'
             mode='horizontal'
@@ -31,21 +30,23 @@ class App extends Component {
             selectedKeys={[stores.route.location.pathname]}
             style={{ lineHeight: '64px' }}
           >
-            <Menu.Item key='/journal'>期刊列表</Menu.Item>
-            <Menu.Item key='/inventory'>库存列表</Menu.Item>
-            <Menu.Item key='/paper'>论文列表</Menu.Item>
-            <Menu.Item key='/subscription'>订阅列表</Menu.Item>
+            <Menu.Item key='/journal'>期刊</Menu.Item>
+            <Menu.Item key='/inventory'>库存</Menu.Item>
+            <Menu.Item key='/paper'>论文</Menu.Item>
+            <Menu.Item key='/subscription'>订阅</Menu.Item>
           </Menu>
         </Header>
-        <Content style={{ padding: '50px', minWidth: 980, margin: '0 auto' }}>
-          <div style={{ padding: '50px', background: 'white' }}>
-            <Route path='/journal/:id' component={JournalDetail} />
-            <Route exact path='/journal' component={Journal} />
-            <Route exact path='/inventory' component={Inventory} />
-            <Route exact path='/paper' component={Paper} />
-            <Route exact path='/subscription' component={Subscription} />
-            <Route exact path='/' component={() => <Redirect to='/journal' />} />
-          </div>
+        <Content style={{
+          padding: '50px',
+          backgroundImage: `url(${bg})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover'
+        }}>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route component={Container} />
+          </Switch>
         </Content>
       </Layout>
     )

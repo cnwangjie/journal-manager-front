@@ -56,11 +56,11 @@ class Journal extends Component {
               style={{ width: 160, paddingRight: 8 }}
               onSearch={(c) => this.setState({ search: c })}
             />,
-            <Button key='add-btn' type='primary'>新增期刊</Button>
+            <Button key='add-btn' type='primary' onClick={() => store.route.push('/journal/edit')}>新增期刊</Button>
           ]}
         >
           <Row>
-            <Col span={12}>
+            <Col span={6}>
               <Statistic title='期刊总数' value={store.data.journals.length} />
             </Col>
           </Row>
