@@ -22,7 +22,12 @@ class App extends Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Header>
-          <Link to='/'><div className='site-name'>Journal Manager</div></Link>
+          <Link to='/'>
+            <div className='site-name'>
+              <img alt='icon' src='/favicon.ico' />
+              Journal Manager
+            </div>
+          </Link>
           <Menu
             theme='dark'
             mode='horizontal'

@@ -1,8 +1,14 @@
 .site-name {
-  width: 120px;
+  width: 180px;
   height: 31px;
   line-height: 31px;
   color: white;
   margin: 16px 24px 16px 0;
   float: left;
+}
+
+.site-name img {
+  width: 31px;
+  height: 31px;
+  margin-right: 24px;
 }
