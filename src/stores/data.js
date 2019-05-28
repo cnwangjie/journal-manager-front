@@ -2,6 +2,8 @@ import _ from 'lodash'
 import { observable, action, runInAction, computed } from 'mobx'
 import {
   getAllJournals,
+  getAllInventories,
+  deleteInventory,
   getAllKeywords,
   getAllPapers,
   getAllSubscriptions,
@@ -34,6 +36,17 @@ class DataStore {
     return _.keyBy(this.journals, '_id')
   }
 
+  @computed get mappedInventories () {
+    return this.inventories.map(({ _id, journal_id: id, year, phase, season, borrower_id: bid }) => ({
+      _id,
+      name: this.journalsMap[id].name,
+      year,
+      phase,
+      season,
+      borrower_id: bid
+    }))
+  }
+
   @computed get mappedPapers () {
     return this.papers.map(({ _id, title, author, page, keywords }) => ({
       _id,
@@ -58,6 +71,23 @@ class DataStore {
     const { data: journals } = await getAllJournals()
     runInAction(() => {
       this.journals = journals
+    })
+  }
+
+  @action
+  async getAllInventories () {
+    const { data: inventories } = await getAllInventories()
+    await this.getAllJournals()
+    runInAction(() => {
+      this.inventories = inventories
+    })
+  }
+
+  @action
+  async deleteInventory (_id) {
+    await deleteInventory(_id)
+    runInAction(() => {
+      this.inventories = this.inventories.filter((inventory) => inventory._id !== _id)
     })
   }
 

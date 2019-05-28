@@ -1,9 +1,7 @@
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
-import { Table, Typography } from 'antd'
+import { Table, PageHeader, Button, Row, Col, Statistic } from 'antd'
 import store from '../../stores'
-
-const { Title } = Typography
 
 const columnsMap = {
   title: '标题',
@@ -23,7 +21,21 @@ class Paper extends Component {
   render () {
     return (
       <div>
-        <Title>论文列表</Title>
+        <PageHeader
+          title='论文列表'
+          extra={[
+            <Button type='primary'>新增论文</Button>
+          ]}
+        >
+          <Row>
+            <Col span={12}>
+              <Statistic title='论文总数' value={store.data.papers.length} />
+            </Col>
+            <Col span={12}>
+              <Statistic title='关键词数' value={store.data.keywords.length} />
+            </Col>
+          </Row>
+        </PageHeader>
         <Table rowKey='_id' dataSource={store.data.mappedPapers} columns={columns} />
       </div>
     )

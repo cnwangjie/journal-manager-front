@@ -1,12 +1,11 @@
+import _ from 'lodash'
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
-import { Table, Typography, Button, Row, Col, Divider } from 'antd'
+import { Table, Button, Divider, PageHeader, Row, Col, Statistic, message } from 'antd'
 import store from '../../stores'
 
 import AddModal from './AddModal'
 import StockModal from './StockModal'
-
-const { Title } = Typography
 
 const columnsMap = {
   name: '期刊名称',
@@ -49,8 +48,9 @@ class Subscription extends Component {
     })
   }
 
-  deleteSubscription = (subscription) => {
-    store.data.deleteSubscription(subscription._id)
+  deleteSubscription = async (subscription) => {
+    await store.data.deleteSubscription(subscription._id)
+    message.success('删除成功')
   }
 
   componentDidMount () {
@@ -75,16 +75,30 @@ class Subscription extends Component {
       }
     })
 
+    const { length: journalSum } = _.uniqBy(store.data.subscriptions, 'journal_id')
+    const { length: allSum } = store.data.subscriptions
+    const { length: thisYearSum } = store.data.subscriptions.filter(({ year }) => year === new Date().getFullYear())
+
     return (
       <div>
-        <Row>
-          <Col span={8}>
-            <Title>订阅列表</Title>
-          </Col>
-          <Col span={8} offset={8}>
-            <Button onClick={this.openAddModal}>增订期刊</Button>
-          </Col>
-        </Row>
+        <PageHeader
+          title='订阅列表'
+          extra={[
+            <Button key='add' type='primary' onClick={this.openAddModal}>增订期刊</Button>
+          ]}
+        >
+          <Row>
+            <Col span={12}>
+              <Statistic title='订阅的期刊种类' value={journalSum} />
+            </Col>
+            <Col span={12}>
+              <Statistic title='订阅的期刊总数' value={allSum} />
+            </Col>
+            <Col span={12}>
+              <Statistic title='今年订阅的期刊' value={thisYearSum} />
+            </Col>
+          </Row>
+        </PageHeader>
 
         <Table rowKey='_id' dataSource={store.data.mappedSubscriptions} columns={columnsWithAction} />
 
